@@ -60,7 +60,7 @@ resource "aws_lambda_function" "lambda2" {
   filename      = "lambda2.zip"
   function_name = "lambda2"
   role          = data.aws_iam_role.lambda.arn
-  handler       = "lambda.lambda_handler"
+  handler       = "temp.lambda_handler"
   timeout = 180
 
   runtime = "python3.7"

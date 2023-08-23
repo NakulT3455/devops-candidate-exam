@@ -10,10 +10,6 @@ resource "aws_subnet" "private" {
 resource "aws_route_table" "route_table" {
   vpc_id = data.aws_vpc.vpc.id
 
-   route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = data.aws_nat_gateway.nat.id
-  }
   tags = {
     Name = "route-table 01"
   }
@@ -31,6 +27,17 @@ resource "aws_route_table_association" "privateRT_with_private1" {
   route_table_id = aws_route_table.route_table.id
 }
 
+
+resource "aws_route" "nat_gateway_route" {
+  route_table_id         = aws_route_table.route_table.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = data.aws_nat_gateway.nat.id
+
+  depends_on = [data.aws_nat_gateway.nat]
+}
+
+
+
 resource "aws_security_group" "example01" {
   name_prefix = "example-sg01"
   vpc_id =  data.aws_vpc.vpc.id
@@ -39,7 +46,7 @@ resource "aws_security_group" "example01" {
   egress {
     from_port = 0
     to_port = 0
-    protocol = "tcp"
+    protocol = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }

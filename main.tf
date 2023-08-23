@@ -55,10 +55,10 @@ resource "aws_security_group" "example01" {
 
 
 
-resource "aws_lambda_function" "lambda01" {
+resource "aws_lambda_function" "lambda" {
 
-  filename      = "lambda1.zip"
-  function_name = "lambda01"
+  filename      = "lambda.zip"
+  function_name = "lambda"
   role          = data.aws_iam_role.lambda.arn
   handler       = "lambda.lambda_handler"
   timeout = 180
